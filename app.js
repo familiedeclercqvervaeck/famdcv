@@ -96,3 +96,26 @@ async function loadProgress() {
 }
 
 loadProgress();
+
+document.getElementById("downloadPdf").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const name = document.getElementById("donorName").value;
+  const tree = document.getElementById("treeSelect").value;
+  const shares = document.getElementById("shares").value;
+  const amount = shares * 25;
+
+  doc.setFontSize(18);
+  doc.text("Cadeaubon Instuif Bomen", 20, 20);
+
+  doc.setFontSize(12);
+  doc.text(`Geschonken door: ${name}`, 20, 40);
+  doc.text(`Boom: ${tree}`, 20, 50);
+  doc.text(`Aandelen: ${shares}`, 20, 60);
+  doc.text(`Bedrag: €${amount}`, 20, 70);
+
+  doc.text("Bedankt voor je steun!", 20, 90);
+
+  doc.save("cadeaubon.pdf");
+});
