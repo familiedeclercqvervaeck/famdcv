@@ -1,40 +1,75 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Instuif Frederik, Evi, Sem & Jasper</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instuif Bomen</title>
+
+  <link rel="stylesheet" href="style.css"/>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
-<header>
-<h1>🌳 Instuif</h1>
-<h2>Frederik, Evi, Sem & Jasper</h2>
-<p>22 augustus</p>
-<p>In plaats van traditionele cadeaus helpen jullie ons mee aan de aanleg van onze tuin.</p>
-</header>
-<main>
-<div id="trees"></div>
-<section class="gift-form">
-<h3>Schenk een aandeel</h3>
-<input type="text" id="donorName" placeholder="Jouw naam">
-<select id="treeSelect">
-<option value="Moseik">Moseik</option>
-<option value="Hazelaar">Hazelaar</option>
-</select>
-<input type="number" id="shares" min="1" value="1">
-<div id="amount">€25</div>
-<button id="giftBtn">Cadeaubon maken</button>
-</section>
-<section id="voucher">
-<h3>Cadeaubon</h3>
-<div id="voucherContent"></div>
-<canvas id="qr"></canvas>
-</section>
-</main>
-<script type="module" src="firebase-config.js"></script>
-<script type="module" src="app.js"></script>
+
+  <header class="header">
+    <h1>🌳 Instuif Bomen</h1>
+    <p>Steun Frederik, Evi, Sem & Jasper</p>
+  </header>
+
+  <main class="container">
+
+    <!-- FORM -->
+    <section class="card">
+      <h2>Maak je schenking</h2>
+
+      <input id="donorName" type="text" placeholder="Jouw naam" />
+
+      <select id="treeSelect">
+        <option value="Moseik">Moseik</option>
+        <option value="Hazelaar">Hazelaar</option>
+      </select>
+
+      <input id="shares" type="number" min="1" value="1"/>
+
+      <p class="amount">Totaal: <span id="amount">€25</span></p>
+
+      <button id="giftBtn">Cadeaubon maken</button>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="card">
+      <h2>🌱 Boom voortgang</h2>
+
+      <div class="tree">
+        <h3>Moseik</h3>
+        <div class="progress-bg">
+          <div id="moseikBar" class="progress"></div>
+        </div>
+        <p id="moseikText"></p>
+      </div>
+
+      <div class="tree">
+        <h3>Hazelaar</h3>
+        <div class="progress-bg">
+          <div id="hazelaarBar" class="progress"></div>
+        </div>
+        <p id="hazelaarText"></p>
+      </div>
+
+    </section>
+
+    <!-- VOUCHER -->
+    <section id="voucher" class="card hidden">
+      <h2>🎟️ Jouw cadeaubon</h2>
+
+      <div id="voucherContent"></div>
+
+      <button id="downloadPdf">Download PDF</button>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
