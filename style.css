@@ -1,0 +1,9 @@
+body{font-family:Poppins,sans-serif;background:#faf8f3;margin:0;color:#333}
+header{text-align:center;padding:60px 20px} h1{color:#4b6b3c}
+main{max-width:1000px;margin:auto;padding:20px}
+.tree-card,.gift-form,#voucher{background:#fff;border-radius:16px;padding:20px;margin:20px 0;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.progress{height:20px;background:#ddd;border-radius:20px;overflow:hidden}
+.progress-bar{height:100%;background:#4b6b3c}
+input,select,button{width:100%;padding:12px;margin:8px 0}
+button{background:#4b6b3c;color:#fff;border:none;border-radius:8px}
+#voucher{display:none}

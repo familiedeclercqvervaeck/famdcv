@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Instuif Frederik, Evi, Sem & Jasper</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+<header>
+<h1>🌳 Instuif</h1>
+<h2>Frederik, Evi, Sem & Jasper</h2>
+<p>22 augustus</p>
+<p>In plaats van traditionele cadeaus helpen jullie ons mee aan de aanleg van onze tuin.</p>
+</header>
+<main>
+<div id="trees"></div>
+<section class="gift-form">
+<h3>Schenk een aandeel</h3>
+<input type="text" id="donorName" placeholder="Jouw naam">
+<select id="treeSelect">
+<option value="Moseik">Moseik</option>
+<option value="Hazelaar">Hazelaar</option>
+</select>
+<input type="number" id="shares" min="1" value="1">
+<div id="amount">€25</div>
+<button id="giftBtn">Cadeaubon maken</button>
+</section>
+<section id="voucher">
+<h3>Cadeaubon</h3>
+<div id="voucherContent"></div>
+<canvas id="qr"></canvas>
+</section>
+</main>
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
