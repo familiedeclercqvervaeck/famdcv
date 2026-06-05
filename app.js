@@ -61,3 +61,38 @@ document
       alert("Er liep iets fout bij het opslaan.");
     }
 });
+
+async function loadProgress() {
+  const snapshot = await getDocs(collection(db, "donations"));
+
+  let moseik = 0;
+  let hazelaar = 0;
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+
+    if (data.tree === "Moseik") {
+      moseik += data.shares;
+    }
+
+    if (data.tree === "Hazelaar") {
+      hazelaar += data.shares;
+    }
+  });
+
+  const goal = 100; // stel doel in (bv 100 aandelen)
+
+  const moseikPercent = Math.min((moseik / goal) * 100, 100);
+  const hazelaarPercent = Math.min((hazelaar / goal) * 100, 100);
+
+  document.getElementById("moseikBar").style.width = moseikPercent + "%";
+  document.getElementById("hazelaarBar").style.width = hazelaarPercent + "%";
+
+  document.getElementById("moseikText").innerText =
+    `${moseik} / ${goal} aandelen verkocht`;
+
+  document.getElementById("hazelaarText").innerText =
+    `${hazelaar} / ${goal} aandelen verkocht`;
+}
+
+loadProgress();
