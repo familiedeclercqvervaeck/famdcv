@@ -22,7 +22,7 @@ const TREES = {
 };
 
 /* -----------------------------
-   FORM - prijs live tonen
+   UI - prijs update
 ------------------------------*/
 
 const sharesInput = document.getElementById("shares");
@@ -38,10 +38,9 @@ sharesInput.addEventListener("input", () => {
 ------------------------------*/
 
 document.getElementById("giftBtn").addEventListener("click", async () => {
-  const name = document.getElementById("donorName").value;
+  const name = document.getElementById("donorName").value.trim();
   const tree = document.getElementById("treeSelect").value;
   const shares = Number(document.getElementById("shares").value);
-  const amount = shares * SHARE_PRICE;
 
   if (!name || shares <= 0) {
     alert("Vul naam en geldig aantal in.");
@@ -49,6 +48,39 @@ document.getElementById("giftBtn").addEventListener("click", async () => {
   }
 
   try {
+    // 1. huidige data ophalen
+    const snapshot = await getDocs(collection(db, "donations"));
+
+    let totals = {
+      "Moseik": 0,
+      "Hazelaar": 0
+    };
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      totals[data.tree] += data.shares * SHARE_PRICE;
+    });
+
+    const current = totals[tree];
+    const goal = TREES[tree].goal;
+
+    const remaining = goal - current;
+
+    if (remaining <= 0) {
+      alert("Deze boom is al volledig gefinancierd 🌳");
+      return;
+    }
+
+    const maxShares = Math.floor(remaining / SHARE_PRICE);
+
+    if (shares > maxShares) {
+      alert(`Maximaal ${maxShares} aandeel(s) mogelijk (€${remaining} resterend).`);
+      return;
+    }
+
+    const amount = shares * SHARE_PRICE;
+
+    // 2. opslaan in Firebase
     await addDoc(collection(db, "donations"), {
       donor: name,
       tree: tree,
@@ -57,7 +89,7 @@ document.getElementById("giftBtn").addEventListener("click", async () => {
       createdAt: new Date()
     });
 
-    // voucher tonen
+    // 3. voucher tonen
     document.getElementById("voucher").classList.remove("hidden");
 
     document.getElementById("voucherContent").innerHTML = `
@@ -67,7 +99,7 @@ document.getElementById("giftBtn").addEventListener("click", async () => {
       <p>€${amount}</p>
     `;
 
-    alert("Schenking opgeslagen!");
+    alert("Schenking succesvol!");
 
     loadProgress();
 
@@ -91,27 +123,21 @@ async function loadProgress() {
 
   snapshot.forEach(doc => {
     const data = doc.data();
-
-    const amount = data.shares * SHARE_PRICE;
-
-    if (totals[data.tree] !== undefined) {
-      totals[data.tree] += amount;
-    }
+    totals[data.tree] += data.shares * SHARE_PRICE;
   });
 
-  // bereken progress %
   Object.keys(TREES).forEach(tree => {
-    const percent = Math.min(
-      (totals[tree] / TREES[tree].goal) * 100,
-      100
-    );
+    const goal = TREES[tree].goal;
+    const value = totals[tree];
+
+    const percent = Math.min((value / goal) * 100, 100);
 
     const bar = document.getElementById(tree.toLowerCase() + "Bar");
     const text = document.getElementById(tree.toLowerCase() + "Text");
 
     if (bar && text) {
       bar.style.width = percent + "%";
-      text.innerText = `€${totals[tree]} / €${TREES[tree].goal}`;
+      text.innerText = `€${value} / €${goal}`;
     }
   });
 }
