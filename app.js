@@ -2,7 +2,8 @@ import { db } from "./firebase-config.js";
 
 import {
   collection,
-  addDoc
+  addDoc,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const shares = document.getElementById("shares");
